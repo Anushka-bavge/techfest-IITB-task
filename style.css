@@ -1,0 +1,987 @@
+/* ----------------------------------------------------
+   ABYSSUS - DESIGN SYSTEM & STYLESHEET
+   ---------------------------------------------------- */
+
+/* --- Custom Variables & Theme --- */
+:root {
+    /* Color Palette */
+    --color-bg-sunlight-top: #38bdf8;
+    --color-bg-sunlight-bot: #0369a1;
+    --color-bg-twilight-top: #0369a1;
+    --color-bg-twilight-bot: #0f172a;
+    --color-bg-midnight-top: #0f172a;
+    --color-bg-midnight-bot: #020617;
+    --color-bg-abyss-top: #020617;
+    --color-bg-abyss-bot: #090d16;
+    --color-bg-hadal-top: #090d16;
+    --color-bg-hadal-bot: #020205;
+    
+    --color-text-primary: #f8fafc;
+    --color-text-muted: #94a3b8;
+    --color-accent-blue: #38bdf8;
+    --color-accent-teal: #2dd4bf;
+    --color-accent-yellow: #facc15;
+    --color-accent-red: #f43f5e;
+    
+    /* Typography */
+    --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    
+    /* Layout */
+    --sidebar-width: 100px;
+    --header-height: 80px;
+    
+    /* Animation Durations */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    background-color: var(--color-bg-hadal-bot);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #020205;
+}
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-accent-blue);
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+p {
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+}
+
+/* --- Layout Elements --- */
+
+/* App Header */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 100;
+    background: linear-gradient(to bottom, rgba(2, 2, 5, 0.8), rgba(2, 2, 5, 0));
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    color: var(--color-accent-blue);
+    display: inline-block;
+    animation: pulse 2s infinite ease-in-out;
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-control {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-text-primary);
+    padding: 8px 16px;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition-fast);
+}
+
+.btn-control:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--color-accent-blue);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.15);
+}
+
+.btn-control:active {
+    transform: translateY(1px);
+}
+
+/* Scroll Prompt */
+.scroll-prompt {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.scroll-prompt.fade-out {
+    opacity: 0;
+}
+
+.mouse-icon {
+    width: 26px;
+    height: 42px;
+    border: 2px solid var(--color-text-muted);
+    border-radius: 15px;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background-color: var(--color-accent-blue);
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scroll-wheel 1.6s infinite ease-in-out;
+}
+
+.scroll-prompt .text {
+    font-size: 0.75rem;
+    font-family: var(--font-display);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    animation: text-pulse 2s infinite ease-in-out;
+}
+
+/* --- Persistent Depth Gauge Sidebar --- */
+.gauge-container {
+    position: fixed;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 55vh;
+    width: var(--sidebar-width);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 95;
+    pointer-events: none; /* Let clicks pass through to sections */
+}
+
+.gauge-track {
+    position: relative;
+    width: 4px;
+    height: 75%;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 2px;
+    pointer-events: auto; /* Allow hovering track elements if needed */
+}
+
+.gauge-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to bottom, var(--color-accent-blue), var(--color-accent-yellow));
+    border-radius: 2px;
+    transition: height 0.1s ease-out;
+}
+
+.gauge-sub {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translate(-50%, -50%);
+    color: var(--color-accent-yellow);
+    background: #020205;
+    border: 2px solid var(--color-accent-yellow);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: top 0.1s ease-out;
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.4);
+}
+
+.gauge-marker {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.gauge-marker .marker-dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    transition: var(--transition-fast);
+}
+
+.gauge-marker:hover .marker-dot,
+.gauge-marker.active .marker-dot {
+    background: var(--color-accent-blue);
+    transform: scale(1.4);
+    box-shadow: 0 0 8px var(--color-accent-blue);
+}
+
+.gauge-marker .marker-label {
+    position: absolute;
+    left: 18px;
+    font-size: 0.7rem;
+    font-family: var(--font-display);
+    color: var(--color-text-muted);
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: var(--transition-medium);
+    white-space: nowrap;
+}
+
+.gauge-container:hover .marker-label,
+.gauge-marker.active .marker-label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Individual Marker Positions */
+.m-sunlight { top: 0%; }
+.m-twilight { top: 20%; }
+.m-midnight { top: 45%; }
+.m-abyss { top: 70%; }
+.m-hadal { top: 100%; }
+
+.depth-readout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    background: rgba(2, 2, 5, 0.6);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(4px);
+}
+
+.depth-value {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-accent-yellow);
+}
+
+.depth-value .unit {
+    font-size: 0.75rem;
+    margin-left: 2px;
+    color: var(--color-text-muted);
+}
+
+.depth-zone-name {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+/* --- Parallax Main Structure --- */
+#parallax-container {
+    position: relative;
+    width: 100%;
+}
+
+.zone {
+    position: relative;
+    width: 100%;
+    height: 120vh; /* Extra vertical space for parallax movement */
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Dynamic background transitions via sections */
+#zone-sunlight {
+    background: linear-gradient(to bottom, var(--color-bg-sunlight-top), var(--color-bg-sunlight-bot));
+}
+#zone-twilight {
+    background: linear-gradient(to bottom, var(--color-bg-twilight-top), var(--color-bg-twilight-bot));
+}
+#zone-midnight {
+    background: linear-gradient(to bottom, var(--color-bg-midnight-top), var(--color-bg-midnight-bot));
+}
+#zone-abyss {
+    background: linear-gradient(to bottom, var(--color-bg-abyss-top), var(--color-bg-abyss-bot));
+}
+#zone-hadal {
+    background: linear-gradient(to bottom, var(--color-bg-hadal-top), var(--color-bg-hadal-bot));
+}
+
+/* Canvas Overlays */
+.ambient-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Parallax Layers */
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+    pointer-events: none;
+}
+
+.layer-bg {
+    z-index: 2;
+}
+
+.layer-mid {
+    z-index: 5;
+}
+
+.layer-fg {
+    z-index: 15;
+}
+
+.layer-content {
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto; /* Let content be interactive */
+}
+
+/* --- SVG Graphics Styling --- */
+
+/* Sunlight Ray Beams */
+.sunrays {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Sea Turtle */
+.sea-turtle {
+    position: absolute;
+    right: 15%;
+    top: 25%;
+    transform: rotate(-10deg);
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
+    animation: drift-turtle 20s infinite ease-in-out;
+}
+
+/* Seagrass */
+.seagrass {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 250px;
+}
+
+/* Rock ledge left */
+.rock-ledge-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    filter: drop-shadow(5px 0 25px rgba(0,0,0,0.6));
+}
+
+/* Giant Squid */
+.giant-squid {
+    position: absolute;
+    left: 12%;
+    top: 15%;
+    transform: rotate(15deg);
+    animation: drift-squid 24s infinite ease-in-out;
+}
+
+/* Siphonophore */
+.siphonophore {
+    position: absolute;
+    right: 18%;
+    top: 10%;
+    animation: drift-siphon 30s infinite ease-in-out;
+}
+
+/* Anglerfish */
+.anglerfish {
+    position: absolute;
+    left: 15%;
+    top: 35%;
+    animation: swim-angler 16s infinite ease-in-out;
+}
+
+/* Cave frame overlays */
+.cave-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Vent Tower Bg */
+.vent-bg {
+    position: absolute;
+    bottom: 5%;
+    left: 20%;
+}
+
+/* Smoke plumes from vents */
+.smoke-plume {
+    transform-origin: bottom center;
+    animation: spew-smoke 6s infinite ease-in-out;
+}
+
+.plume-right {
+    animation-delay: 3s;
+}
+
+/* Whale Fall Skeleton */
+.whale-fall {
+    position: absolute;
+    right: 20%;
+    bottom: 12%;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5));
+}
+
+/* Abyssal Rock right */
+.rock-right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    filter: drop-shadow(-10px 0 30px rgba(0,0,0,0.8));
+}
+
+/* Hadal Fissure Lines */
+.trench-fissure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: flicker-fissure 8s infinite alternate;
+}
+
+/* Research Submersible Container */
+.submersible-container {
+    position: absolute;
+    left: 25%;
+    top: 20%;
+    animation: hover-sub 8s infinite ease-in-out;
+}
+
+/* Submersible spotlight sensor blinking */
+.sensor-blink {
+    animation: blink-red 1.5s infinite step-end;
+}
+
+/* Trench Floor and Discovery Artifact */
+.trench-floor-container {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 180px;
+}
+
+.trench-floor {
+    width: 100%;
+    height: 100%;
+}
+
+/* Glowing Artifact */
+.glowing-artifact {
+    position: absolute;
+    left: 48%;
+    bottom: 45px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+.core-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--color-accent-yellow);
+    box-shadow: 0 0 15px var(--color-accent-yellow), 0 0 30px var(--color-accent-yellow);
+    animation: core-glow 2s infinite ease-in-out;
+}
+
+.aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(250, 204, 21, 0.4);
+    animation: aura-expand 3s infinite linear;
+}
+
+/* --- Content Cards & Reveals --- */
+.content-card {
+    max-width: 460px;
+    background: rgba(11, 15, 25, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    margin-left: 25%; /* Give space on left for sidebar & graphics */
+    transition: var(--transition-medium);
+}
+
+.content-card:hover {
+    background: rgba(11, 15, 25, 0.6);
+    border-color: rgba(56, 189, 248, 0.2);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 20px rgba(56, 189, 248, 0.1);
+    transform: translateY(-5px);
+}
+
+.zone-badge {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-accent-blue);
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    padding: 4px 10px;
+    border-radius: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+}
+
+.content-card h2 {
+    font-size: 2.25rem;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+}
+
+.content-card .subtitle {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    color: var(--color-accent-teal);
+    font-weight: 500;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.content-card .description {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+}
+
+/* Scroll-triggered reveal animations via IntersectionObserver */
+.reveal-card {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Footer & Surface Return Zone --- */
+.zone-footer {
+    position: relative;
+    min-height: 100vh;
+    background: #020205;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 40px;
+    z-index: 30;
+    overflow: hidden;
+}
+
+.footer-content {
+    max-width: 800px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    z-index: 10;
+}
+
+.zone-footer h2 {
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--color-text-primary), var(--color-accent-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.zone-footer p {
+    font-size: 1.2rem;
+    max-width: 600px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.stat-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 24px;
+    border-radius: 16px;
+    transition: var(--transition-fast);
+}
+
+.stat-box:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.03);
+}
+
+.stat-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--color-accent-yellow);
+    margin-bottom: 6px;
+}
+
+.stat-lbl {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--color-accent-blue), #0284c7);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.3);
+    transition: var(--transition-medium);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-primary:active {
+    transform: translateY(1px);
+}
+
+.footer-credits {
+    margin-top: 40px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Animations (@keyframes) --- */
+
+@keyframes scroll-wheel {
+    0% { top: 8px; opacity: 0; }
+    30% { opacity: 1; }
+    80% { top: 22px; opacity: 0; }
+    100% { top: 8px; opacity: 0; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.8; }
+}
+
+@keyframes text-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+@keyframes drift-turtle {
+    0%, 100% { transform: rotate(-10deg) translate(0, 0); }
+    50% { transform: rotate(-5deg) translate(-30px, -20px); }
+}
+
+@keyframes drift-squid {
+    0%, 100% { transform: rotate(15deg) translate(0, 0); }
+    50% { transform: rotate(10deg) translate(20px, -40px); }
+}
+
+@keyframes drift-siphon {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-15px, 25px) scale(0.95); }
+}
+
+@keyframes swim-angler {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(15px, -15px) rotate(-2deg); }
+    50% { transform: translate(30px, 0px) rotate(1deg); }
+    75% { transform: translate(15px, 15px) rotate(3deg); }
+}
+
+@keyframes spew-smoke {
+    0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+    50% { transform: scale(1.2) rotate(3deg); opacity: 0.15; }
+}
+
+@keyframes hover-sub {
+    0%, 100% { transform: translate(0, 0) rotate(0); }
+    50% { transform: translate(10px, -25px) rotate(2deg); }
+}
+
+@keyframes blink-red {
+    0%, 100% { fill: #ef4444; }
+    50% { fill: #7f1d1d; }
+}
+
+@keyframes flicker-fissure {
+    0%, 100% { opacity: 0.6; }
+    30% { opacity: 0.8; }
+    40% { opacity: 0.5; }
+    70% { opacity: 0.9; }
+}
+
+@keyframes core-glow {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; box-shadow: 0 0 25px var(--color-accent-yellow), 0 0 50px var(--color-accent-yellow); }
+}
+
+@keyframes aura-expand {
+    0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+}
+
+/* Bioluminescent pulses in Mid/Bg SVGs */
+.biolum-glow {
+    animation: glow-pulse 3s infinite ease-in-out;
+}
+.siphonophore circle:nth-child(even) {
+    animation-delay: 1.5s;
+}
+
+@keyframes glow-pulse {
+    0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 2px currentColor); }
+    50% { opacity: 1; filter: drop-shadow(0 0 8px currentColor); }
+}
+
+.biolum-glow-bulb {
+    animation: bulb-pulse 2s infinite ease-in-out;
+}
+
+@keyframes bulb-pulse {
+    0%, 100% { filter: drop-shadow(0 0 4px #a7f3d0); opacity: 0.7; }
+    50% { filter: drop-shadow(0 0 16px #6ee7b7); opacity: 1; }
+}
+
+/* --- Responsive Layout Rules --- */
+@media (max-width: 1024px) {
+    .content-card {
+        margin-left: 20%;
+        padding: 30px;
+    }
+    
+    .gauge-container {
+        left: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Degrade parallax and reorganize structure for smaller screens */
+    .app-header {
+        padding: 0 20px;
+    }
+    
+    .gauge-container {
+        display: none; /* Hide sidebar depth track on small devices */
+    }
+    
+    .content-card {
+        margin-left: 0;
+        margin: 0 24px;
+        width: 100%;
+        max-width: 90%;
+        background: rgba(11, 15, 25, 0.75); /* Stronger contrast background */
+    }
+    
+    .zone {
+        height: 100vh;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr; /* Stack statistics vertically */
+        gap: 12px;
+    }
+    
+    /* Reposition silhouettes for visibility */
+    .sea-turtle {
+        width: 100px;
+        height: 100px;
+        right: 5%;
+        top: 15%;
+    }
+    .giant-squid {
+        width: 100px;
+        height: 200px;
+        left: 5%;
+        top: 10%;
+    }
+    .anglerfish {
+        width: 120px;
+        height: 100px;
+        left: 5%;
+        top: 25%;
+    }
+    .whale-fall {
+        width: 180px;
+        height: 90px;
+        right: 5%;
+        bottom: 10%;
+    }
+    .submersible-container {
+        left: 5%;
+        top: 15%;
+    }
+    .submersible {
+        width: 150px;
+        height: 90px;
+    }
+}
+
+/* --- Accessibility: reduced motion support --- */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto; /* Turn off smooth scrolling */
+    }
+    
+    /* Disable CSS animations */
+    .sea-turtle, .giant-squid, .siphonophore, .anglerfish, 
+    .submersible-container, .smoke-plume, .sensor-blink, 
+    .core-pulse, .aura, .biolum-glow, .biolum-glow-bulb, 
+    .logo-icon, .wheel, .trench-fissure {
+        animation: none !important;
+    }
+    
+    .reveal-card {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    
+    /* Parallax script will check this class to stop applying translations */
+    .no-parallax .layer {
+        transform: none !important;
+    }
+}
+
+/* Custom class manually toggled by user */
+.no-parallax-forced .layer {
+    transform: none !important;
+}
+
+.no-parallax-forced .sea-turtle,
+.no-parallax-forced .giant-squid,
+.no-parallax-forced .siphonophore,
+.no-parallax-forced .anglerfish,
+.no-parallax-forced .submersible-container,
+.no-parallax-forced .smoke-plume,
+.no-parallax-forced .sensor-blink,
+.no-parallax-forced .core-pulse,
+.no-parallax-forced .aura,
+.no-parallax-forced .biolum-glow,
+.no-parallax-forced .biolum-glow-bulb,
+.no-parallax-forced .logo-icon,
+.no-parallax-forced .trench-fissure {
+    animation: none !important;
+}
