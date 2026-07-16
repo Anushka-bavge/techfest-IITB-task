@@ -877,6 +877,11 @@ p {
     }
 }
 
+/* Mobile Depth Indicator (floating) */
+.mobile-depth-pill {
+    display: none;
+}
+
 @media (max-width: 768px) {
     /* Degrade parallax and reorganize structure for smaller screens */
     .app-header {
@@ -886,13 +891,44 @@ p {
     .gauge-container {
         display: none; /* Hide sidebar depth track on small devices */
     }
+
+    /* Floating mobile depth bar */
+    .mobile-depth-pill {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: rgba(11, 15, 25, 0.9);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        border-radius: 30px;
+        padding: 10px 18px;
+        font-family: var(--font-display);
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-accent-yellow);
+        z-index: 99;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+    
+    .mobile-depth-pill .depth-icon {
+        color: var(--color-accent-blue);
+    }
     
     .content-card {
         margin-left: 0;
         margin: 0 24px;
         width: 100%;
         max-width: 90%;
-        background: rgba(11, 15, 25, 0.75); /* Stronger contrast background */
+        background: rgba(11, 15, 25, 0.85); /* Stronger contrast background */
+        padding: 30px 24px;
+    }
+    
+    .content-card h2 {
+        font-size: 1.8rem;
     }
     
     .zone {
@@ -904,40 +940,95 @@ p {
         gap: 12px;
     }
     
-    /* Reposition silhouettes for visibility */
+    /* Reposition silhouettes for visibility & reduce opacity to prevent overlapping readability issues */
     .sea-turtle {
-        width: 100px;
-        height: 100px;
-        right: 5%;
-        top: 15%;
+        width: 90px;
+        height: 90px;
+        right: 8%;
+        top: 12%;
+        opacity: 0.25 !important;
     }
     .giant-squid {
-        width: 100px;
-        height: 200px;
-        left: 5%;
-        top: 10%;
+        width: 90px;
+        height: 180px;
+        left: 8%;
+        top: 8%;
+        opacity: 0.25 !important;
     }
     .anglerfish {
-        width: 120px;
-        height: 100px;
-        left: 5%;
-        top: 25%;
+        width: 100px;
+        height: 80px;
+        left: 8%;
+        top: 20%;
+        opacity: 0.25 !important;
     }
     .whale-fall {
-        width: 180px;
-        height: 90px;
-        right: 5%;
-        bottom: 10%;
+        width: 150px;
+        height: 75px;
+        right: 8%;
+        bottom: 8%;
+        opacity: 0.25 !important;
     }
     .submersible-container {
-        left: 5%;
-        top: 15%;
+        left: 8%;
+        top: 12%;
+        opacity: 0.3 !important;
     }
     .submersible {
-        width: 150px;
-        height: 90px;
+        width: 120px;
+        height: 72px;
     }
 }
+
+@media (max-width: 480px) {
+    .app-header {
+        padding: 0 16px;
+        height: 64px;
+    }
+    
+    .logo {
+        font-size: 1.05rem;
+    }
+    
+    .btn-control {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .btn-control .label {
+        display: none; /* Hide labels to fit screen width */
+    }
+    
+    .content-card {
+        padding: 24px 20px;
+        margin: 0 12px;
+    }
+    
+    .content-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .content-card .subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
+    }
+    
+    .content-card .description {
+        font-size: 0.85rem;
+    }
+    
+    .zone-footer h2 {
+        font-size: 2.2rem;
+    }
+    
+    .mobile-depth-pill {
+        bottom: 16px;
+        right: 16px;
+        padding: 8px 14px;
+        font-size: 0.75rem;
+    }
+}
+
 
 /* --- Accessibility: reduced motion support --- */
 @media (prefers-reduced-motion: reduce) {

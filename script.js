@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const gaugeSub = document.getElementById('gauge-sub');
     const gaugeMarkers = document.querySelectorAll('.gauge-marker');
     const scrollPrompt = document.getElementById('scroll-prompt');
+    const mobileDepthNumber = document.getElementById('mobile-depth-number');
+    const mobileDepthZone = document.getElementById('mobile-depth-zone');
     
     const audioToggle = document.getElementById('audio-toggle');
     const motionToggle = document.getElementById('motion-toggle');
@@ -264,6 +266,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         depthZoneName.textContent = zone.name;
+        if (mobileDepthNumber) {
+            mobileDepthNumber.textContent = currentDepth.toLocaleString();
+        }
+        if (mobileDepthZone) {
+            mobileDepthZone.textContent = zone.name;
+        }
 
         // Update depth gauge sidebar
         gaugeFill.style.height = `${ratio * 100}%`;
